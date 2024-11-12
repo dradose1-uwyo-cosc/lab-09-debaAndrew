@@ -1,12 +1,10 @@
-# Your Name Here
+# Andrew Deba
 # UWYO COSC 1010
-# Submission Date
-# Lab XX
-# Lab Section:
+# 11/14/2024
+# Lab 09
+# Lab Section: 18
 # Sources, people worked with, help given to:
-# Your
-# Comments
-# Here
+
 
 # Classes
 # For this assignment, you will be creating two classes:
@@ -34,6 +32,30 @@
 # - Assign the parameter for size to a size attribute.
 # - Assign the parameter for sauce to the attribute.
 # - Create the toppings attribute, starting off as a list only holding cheese.
+
+class pizza:
+    def __init__(self, size, sauce):
+        self.size = size
+        self.sauce = sauce
+        #self.toppings = toppings
+    def size_funct(self):
+        if int(self.size) < 11:
+            self.size = 10
+        return self.size
+    def sauce_funct(self):
+        print("This is a placeholder")
+
+pizza_order = pizza(input("What size of pizza would you like? Our smallest option is 10 inches."), input("What sauce would you like on your pizza?"))
+
+yeahno = input(f"You have selected to order a {pizza_order.size_funct()} inch pizza with {pizza_order.sauce} sauce. Is this correct?")
+
+
+
+
+
+
+
+
 
 
 # You will be creating a Pizzeria class with the following attributes:
