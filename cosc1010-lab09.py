@@ -3,7 +3,7 @@
 # 11/14/2024
 # Lab 09
 # Lab Section: 18
-# Sources, people worked with, help given to:
+# Sources, people worked with, help given to: https://www.geeksforgeeks.org/default-arguments-in-python/
 
 
 # Classes
@@ -34,29 +34,63 @@
 # - Create the toppings attribute, starting off as a list only holding cheese.
 
 class pizza:
-    def __init__(self, size, sauce):
+    def __init__(self, size, sauce = "red"):
         self.size = size
         self.sauce = sauce
-        #self.toppings = toppings
+        self.toppings = ["cheese"]
     def size_funct(self):
-        if int(self.size) < 11:
+        if not (self.size).isnumeric() or int(self.size) < 11:
             self.size = 10
         return self.size
     def sauce_funct(self):
-        print("This is a placeholder")
+        if self.sauce == "":
+            return "red"
+        return self.sauce
+    def toppings_funct(self):
+        run_number = 1
+        while True:
+            if run_number == 3:
+                interval_topping_input = input(f'What is the {run_number}rd topping you would like on your Pizza? If you would like no toppings other than cheese, please enter "stop"')
+            elif run_number == 2:
+                interval_topping_input = input(f'What is the {run_number}nd topping you would like on your Pizza? If you would like no toppings other than cheese, please enter "stop"')
+            elif run_number == 1:
+                interval_topping_input = input(f'What is the {run_number}st topping you would like on your Pizza? If you would like no toppings other than cheese, please enter "stop"')
+            else:
+                interval_topping_input = input(f'What is the {run_number}th topping you would like on your Pizza? If you would like no toppings other than cheese, please enter "stop"')
+            
+            if interval_topping_input.upper() == "STOP":
+                break
+            self.toppings.append(interval_topping_input)
+            run_number += 1
+        
+        toppings_string = ""
+        counter = 1
 
-pizza_order = pizza(input("What size of pizza would you like? Our smallest option is 10 inches."), input("What sauce would you like on your pizza?"))
+        for i in self.toppings:
+            if i != "cheese":
+                toppings_string = toppings_string + (f", {i}")
+            elif i == "cheese":
+                toppings_string = toppings_string + (i)
+            elif counter == len(self.toppings):
+                toppings_string = toppings_string + (f", and {i}")
+            counter += 1
 
-yeahno = input(f"You have selected to order a {pizza_order.size_funct()} inch pizza with {pizza_order.sauce} sauce. Is this correct?")
+        return toppings_string
 
+def pizza_function():
+    while True:
+        size_input = input("What size of pizza would you like? Our smallest option is 10 inches.")
+        sauce_input = input("What sauce would you like on your pizza?")
 
+        pizza_order = pizza(size_input, sauce_input)
 
+        yeahno = input(f"You have selected to order a {pizza_order.size_funct()} inch pizza with {pizza_order.sauce_funct()} sauce and {pizza_order.toppings_funct()}. Is this correct?")
 
+        if yeahno.upper() == "YES":
+            pizza_final = [pizza_order.size_funct(), pizza_order.sauce_funct(), pizza_order.toppings_funct()]
+            return pizza_final
 
-
-
-
-
+print(pizza_function())
 
 # You will be creating a Pizzeria class with the following attributes:
 # - orders, the number of orders placed. Should start at 0.
@@ -100,6 +134,30 @@ yeahno = input(f"You have selected to order a {pizza_order.size_funct()} inch pi
 # - After the order is placed, call the getReceipt() method.
 # - Repeat the loop as needed.
 # - AFTER the loop, print how many orders were placed.
+
+#class pizzeria:
+    #def __init__(self, size, sauce = "red"):
+       # self.
+    #def place_order(self):
+       # if input("Would you like to place and order?").upper() == "YES":
+        #    return pizza()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Example output:
