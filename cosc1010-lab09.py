@@ -3,7 +3,7 @@
 # 11/14/2024
 # Lab 09
 # Lab Section: 18
-# Sources, people worked with, help given to: https://www.geeksforgeeks.org/default-arguments-in-python/
+# Sources, people worked with, help given to: https://www.geeksforgeeks.org/default-arguments-in-python/, https://www.geeksforgeeks.org/g-fact-34-class-or-static-variables-in-python/
 
 
 # Classes
@@ -40,9 +40,11 @@ class Pizza:
         self.toppings = ["cheese"]
 
     def get_size(self):
+        if type(self.size) == "int":
+            return self.size
         if not (self.size).isnumeric() or int(self.size) < 11:
-            self.size = 10
-        return self.size
+            self.size = "10"
+        return int(self.size)
     
     def set_size(self,size):
         self.size = size
@@ -55,16 +57,28 @@ class Pizza:
     def get_toppings(self):
         return self.toppings
     
+    def get_number_of_toppings(self):
+        return len(self.get_toppings())
+    
     def add_topping(self, topping_name):
         self.toppings.append(topping_name)
 
 class Pizzeria:
+    PRICE_PER_INCH = 0.6
+    PRICE_PER_TOPPING = 0.3
     def __init__(self):
         self.orders = 0
         self.pizzas = []
 
     def get_Price(self, pizza_order):
-        return ((pizza_order.get_size()*0.6)+(len(pizza_order.get_toppings())*0.3))
+        return (self.get_Price_size(pizza_order) + self.get_Price_toppings(pizza_order))
+
+    def get_Price_size(self, pizza_order):
+        return (pizza_order.get_size()*Pizzeria.PRICE_PER_INCH)
+    
+    def get_Price_toppings(self, pizza_order):
+        return (len(pizza_order.get_toppings())*Pizzeria.PRICE_PER_TOPPING)
+        #Assuming cheese counts towards the topping price
 
     def place_order(self):
         size_input = input("What size of pizza would you like? Our smallest option is 10 inches.")
@@ -73,37 +87,54 @@ class Pizzeria:
         pizza_order = Pizza(size_input, sauce_input)
 
         while True:
-            topping_input = input("Next toping?")
+            topping_input = input("Next topping?")
 
             if topping_input == "":
                 break
 
             pizza_order.add_topping(topping_input)
 
-        print(f"You have selected to order a {pizza_order.get_size()} inch pizza with {pizza_order.get_sauce()} sauce and {pizza_order.get_toppings()}.")
-
-        print(pizza_shop.get_Price(pizza_order))
+        print(f"You have selected to order a {pizza_order.get_size()} inch pizza with {pizza_order.get_sauce()} sauce{self.format_toppings(pizza_order)}.")
 
         self.pizzas.append(pizza_order)
         self.orders += 1
+        return pizza_order
 
     def get_num_orders(self):
         return self.orders
     
-    def get_reciept(self):
-        
+    def get_reciept(self, pizza_order):
+        print(f"You ordered a {pizza_order.get_size()} inch for ${self.get_Price_size(pizza_order)}.")
+        print(f"You ordered {pizza_order.get_number_of_toppings()} topping for ${self.get_Price_toppings(pizza_order)}.")
+        print(f"Your total price is ${self.get_Price(pizza_order)}")
+
+    def format_toppings(self, pizza_order):
+        toppings_string = ""
+        count = 1
+        for i in (pizza_order.get_toppings()):
+            if count != 1 and count == (pizza_order.get_number_of_toppings()):
+                toppings_string = toppings_string + (", and ")
+            elif count == 1 and count == (pizza_order.get_number_of_toppings()):
+                toppings_string = toppings_string + (" and ")
+            else:
+                toppings_string = toppings_string + (", ")
+
+            toppings_string = toppings_string + i
+            count += 1
+
+        return toppings_string
 
 pizza_shop = Pizzeria()
 
 while True:
     if input("Would you like to place an order?").upper() == "YES":
-        pizza_shop.place_order()
+        final_pizza = pizza_shop.place_order()
+        pizza_shop.format_toppings(final_pizza)
+        pizza_shop.get_reciept(final_pizza)
     else:
         break
 
-print(pizza_shop.get_num_orders())
-
-
+print(f"You have sold {pizza_shop.get_num_orders()} pizza(s) today.")
 
 
 # You will be creating a Pizzeria class with the following attributes:
