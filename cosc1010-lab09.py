@@ -33,64 +33,78 @@
 # - Assign the parameter for sauce to the attribute.
 # - Create the toppings attribute, starting off as a list only holding cheese.
 
-class pizza:
-    def __init__(self, size, sauce = "red"):
+class Pizza:
+    def __init__(self, size = 10, sauce = "red"):
         self.size = size
         self.sauce = sauce
         self.toppings = ["cheese"]
-    def size_funct(self):
+
+    def get_size(self):
         if not (self.size).isnumeric() or int(self.size) < 11:
             self.size = 10
         return self.size
-    def sauce_funct(self):
-        if self.sauce == "":
-            return "red"
+    
+    def set_size(self,size):
+        self.size = size
+
+    def get_sauce(self):
+        #if self.sauce == "":
+            #return "red"
         return self.sauce
-    def toppings_funct(self):
-        run_number = 1
-        while True:
-            if run_number == 3:
-                interval_topping_input = input(f'What is the {run_number}rd topping you would like on your Pizza? If you would like no toppings other than cheese, please enter "stop"')
-            elif run_number == 2:
-                interval_topping_input = input(f'What is the {run_number}nd topping you would like on your Pizza? If you would like no toppings other than cheese, please enter "stop"')
-            elif run_number == 1:
-                interval_topping_input = input(f'What is the {run_number}st topping you would like on your Pizza? If you would like no toppings other than cheese, please enter "stop"')
-            else:
-                interval_topping_input = input(f'What is the {run_number}th topping you would like on your Pizza? If you would like no toppings other than cheese, please enter "stop"')
-            
-            if interval_topping_input.upper() == "STOP":
-                break
-            self.toppings.append(interval_topping_input)
-            run_number += 1
-        
-        toppings_string = ""
-        counter = 1
+    
+    def get_toppings(self):
+        return self.toppings
+    
+    def add_topping(self, topping_name):
+        self.toppings.append(topping_name)
 
-        for i in self.toppings:
-            if i != "cheese":
-                toppings_string = toppings_string + (f", {i}")
-            elif i == "cheese":
-                toppings_string = toppings_string + (i)
-            elif counter == len(self.toppings):
-                toppings_string = toppings_string + (f", and {i}")
-            counter += 1
+class Pizzeria:
+    def __init__(self):
+        self.orders = 0
+        self.pizzas = []
 
-        return toppings_string
+    def get_Price(self, pizza_order):
+        return ((pizza_order.get_size()*0.6)+(len(pizza_order.get_toppings())*0.3))
 
-def pizza_function():
-    while True:
+    def place_order(self):
         size_input = input("What size of pizza would you like? Our smallest option is 10 inches.")
         sauce_input = input("What sauce would you like on your pizza?")
+        
+        pizza_order = Pizza(size_input, sauce_input)
 
-        pizza_order = pizza(size_input, sauce_input)
+        while True:
+            topping_input = input("Next toping?")
 
-        yeahno = input(f"You have selected to order a {pizza_order.size_funct()} inch pizza with {pizza_order.sauce_funct()} sauce and {pizza_order.toppings_funct()}. Is this correct?")
+            if topping_input == "":
+                break
 
-        if yeahno.upper() == "YES":
-            pizza_final = [pizza_order.size_funct(), pizza_order.sauce_funct(), pizza_order.toppings_funct()]
-            return pizza_final
+            pizza_order.add_topping(topping_input)
 
-print(pizza_function())
+        print(f"You have selected to order a {pizza_order.get_size()} inch pizza with {pizza_order.get_sauce()} sauce and {pizza_order.get_toppings()}.")
+
+        print(pizza_shop.get_Price(pizza_order))
+
+        self.pizzas.append(pizza_order)
+        self.orders += 1
+
+    def get_num_orders(self):
+        return self.orders
+    
+    def get_reciept(self):
+        
+
+pizza_shop = Pizzeria()
+
+while True:
+    if input("Would you like to place an order?").upper() == "YES":
+        pizza_shop.place_order()
+    else:
+        break
+
+print(pizza_shop.get_num_orders())
+
+
+
 
 # You will be creating a Pizzeria class with the following attributes:
 # - orders, the number of orders placed. Should start at 0.
@@ -135,12 +149,7 @@ print(pizza_function())
 # - Repeat the loop as needed.
 # - AFTER the loop, print how many orders were placed.
 
-#class pizzeria:
-    #def __init__(self, size, sauce = "red"):
-       # self.
-    #def place_order(self):
-       # if input("Would you like to place and order?").upper() == "YES":
-        #    return pizza()
+
 
 
 
